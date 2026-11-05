@@ -1,6 +1,6 @@
 # MatrixTui
 
-A small interactive terminal app built with Terminal.Gui v2. It includes a session menu, an uplink message form and a continuously animated Matrix-style pane on the right.
+A small interactive terminal app built with Terminal.Gui v2. It includes a session menu, a transmission log above the uplink message form on the left, and a continuously animated Matrix-style pane on the right.
 
 ## Run
 
