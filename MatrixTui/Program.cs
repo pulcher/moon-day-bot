@@ -18,10 +18,10 @@ List<string> transcriptLines = [];
 Label transcript = new ()
 {
     X = 1,
-    Y = 7,
+    Y = 0,
     Width = Dim.Fill (2),
     Height = Dim.Fill (1),
-    Text = "TRANSMISSION LOG\n\nType a message above and select Transmit."
+    Text = "No transmissions yet."
 };
 Label status = new ()
 {
@@ -54,7 +54,7 @@ void SubmitMessage ()
         transcriptLines.RemoveRange (0, transcriptLines.Count - 10);
     }
 
-    transcript.Text = "TRANSMISSION LOG\n\n" + string.Join (Environment.NewLine, transcriptLines);
+    transcript.Text = string.Join (Environment.NewLine, transcriptLines);
     status.Text = "TRANSMISSION SENT  |  UPLINK READY";
     input.Text = string.Empty;
 }
@@ -74,11 +74,21 @@ Window mainWindow = new ()
     Height = Dim.Fill ()
 };
 
+Window transmissionWindow = new ()
+{
+    Title = "TRANSMISSION LOG",
+    X = 0,
+    Y = 1,
+    Width = Dim.Percent (70),
+    Height = Dim.Percent (50)
+};
+transmissionWindow.Add (transcript);
+
 Window inputWindow = new ()
 {
     Title = "UPLINK CONSOLE",
     X = 0,
-    Y = 1,
+    Y = Pos.Bottom (transmissionWindow),
     Width = Dim.Percent (70),
     Height = Dim.Fill (1)
 };
@@ -91,8 +101,7 @@ inputWindow.Add (
         Text = "MESSAGE"
     },
     input,
-    transmitButton,
-    transcript);
+    transmitButton);
 
 Label matrixDisplay = new ()
 {
@@ -134,7 +143,7 @@ MenuBar menuBar = new (
                 Action = () =>
                 {
                     transcriptLines.Clear ();
-                    transcript.Text = "TRANSMISSION LOG\n\nLog cleared.";
+                    transcript.Text = "Log cleared.";
                     status.Text = "UPLINK READY  |  LOG CLEARED";
                 }
             },
@@ -157,7 +166,7 @@ MenuBar menuBar = new (
     Width = Dim.Fill ()
 };
 
-mainWindow.Add (menuBar, inputWindow, matrixWindow, statusBar);
+mainWindow.Add (menuBar, transmissionWindow, inputWindow, matrixWindow, statusBar);
 
 MatrixRain rain = new ();
 app.AddTimeout (TimeSpan.FromMilliseconds (120), () =>
